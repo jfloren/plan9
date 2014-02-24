@@ -532,6 +532,15 @@ dohttp(URL *u, URL *px, Range *r, Out *out, long mtime)
 		
 		case 417:	/* Expectation Failed */
 			sysfatal("417 Expectation Failed");
+
+		case 428:	/* Precondition Required */
+			sysfatal("Precondition Required");
+
+		case 419:	/* Too Many Requests */
+			sysfatal("Too Many Requests");
+
+		case 431:	/* Request Header Fields Too Large */
+			sysfatal("Request Header Fields Too Large");
 		
 		case 500:	/* Internal server error */
 			sysfatal("Server choked");
@@ -550,6 +559,9 @@ dohttp(URL *u, URL *px, Range *r, Out *out, long mtime)
 
 		case 505:	/* Gateway Timeout */
 			sysfatal("HTTP Version Not Supported");
+
+		case 511:	/* Network Authentication Required */
+			sysfatal("Network Authentication Required");
 		
 		default:
 			sysfatal("Unknown response code %d", code);
