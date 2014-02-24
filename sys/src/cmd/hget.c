@@ -446,6 +446,8 @@ dohttp(URL *u, URL *px, Range *r, Out *out, long mtime)
 		case 200:	/* OK */
 		case 201:	/* Created */
 		case 202:	/* Accepted */
+		case 203:	/* Non-Authoritative Information */
+		case 205:	/* Reset Content */
 			if(ofile == nil && r->start != 0)
 				sysfatal("page changed underfoot");
 			break;
@@ -457,6 +459,9 @@ dohttp(URL *u, URL *px, Range *r, Out *out, long mtime)
 			setoffset(out, r->start);
 			break;
 
+		case 300:	/* Multiple Choices */
+			sysfatal("Multiple Choices");
+
 		case 301:	/* Moved Permanently */
 		case 302:	/* Moved Temporarily (actually Found) */
 		case 303:	/* See Other */
@@ -467,6 +472,9 @@ dohttp(URL *u, URL *px, Range *r, Out *out, long mtime)
 
 		case 304:	/* Not Modified */
 			break;
+
+		case 305:	/* Use Proxy */
+			sysfatal("Use Proxy");
 
 		case 400:	/* Bad Request */
 			sysfatal("Bad Request");
@@ -486,9 +494,45 @@ dohttp(URL *u, URL *px, Range *r, Out *out, long mtime)
 		case 404:	/* Not Found */
 			sysfatal("Not found on server");
 
+		case 405:	/* Method Not Allowed */
+			sysfatal("Method Not Allowed");
+
+		case 406:	/* Not Acceptable */
+			sysfatal("Not Acceptable");
+
 		case 407:	/* Proxy Authentication */
 			sysfatal("Proxy authentication required");
 
+		case 408:	/* Request Timeout */
+			sysfatal("Request Timeout");
+		
+		case 409:	/* Conflict */
+			sysfatal("Conflict");
+		
+		case 410:	/* Gone */
+			sysfatal("Gone");
+		
+		case 411:	/* Length Required */
+			sysfatal("Length Required");
+		
+		case 412:	/* Precondition Failed */
+			sysfatal("Precondition Failed");
+		
+		case 413:	/* Request Entity Too Large */
+			sysfatal("Request Entitiy Too Large");
+		
+		case 414:	/* Request-URI Too Long */
+			sysfatal("Request-URI Too Long");
+		
+		case 415:	/* Unsupported Media Type */
+			sysfatal("Unsupported Media Type");
+		
+		case 416:	/* Requested Range Not Satisfiable */
+			sysfatal("Requested Range Not Satisfiable");
+		
+		case 417:	/* Expectation Failed */
+			sysfatal("417 Expectation Failed");
+		
 		case 500:	/* Internal server error */
 			sysfatal("Server choked");
 
@@ -500,6 +544,12 @@ dohttp(URL *u, URL *px, Range *r, Out *out, long mtime)
 
 		case 503:	/* Service unavailable */
 			sysfatal("Service unavailable");
+
+		case 504:	/* Gateway Timeout */
+			sysfatal("Gateway Timeout");
+
+		case 505:	/* Gateway Timeout */
+			sysfatal("HTTP Version Not Supported");
 		
 		default:
 			sysfatal("Unknown response code %d", code);
