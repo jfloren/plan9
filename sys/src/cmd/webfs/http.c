@@ -367,8 +367,10 @@ httpopen(Client *c, Url *url)
 	case 200:	/* OK */
 	case 201:	/* Created */
 	case 202:	/* Accepted */
+	case 203:	/* Non-Authoritative Information */
 	case 204:	/* No Content */
-	case 205: /* Reset Content */
+	case 205:	/* Reset Content */
+	case 300:	/* Multiple Choices */
 #ifdef NOT_DEFINED
 		if(ofile == nil && r->start != 0)
 			sysfatal("page changed underfoot");
@@ -388,6 +390,10 @@ httpopen(Client *c, Url *url)
 
 	case 304:	/* Not Modified */
 		break;
+
+	case 305:	/* Use Proxy */
+		werrstr("Use Proxy (305)");
+		goto Error;
 
 	case 400:	/* Bad Request */
 		werrstr("Bad Request (400)");
@@ -478,6 +484,14 @@ httpopen(Client *c, Url *url)
 
 	case 503:	/* Service unavailable */
 		werrstr("Service unavailable (503)");
+		goto Error;
+
+	case 504:	/* Gateway Timeout */
+		werrstr("Gateway Timeout (504)");
+		goto Error;
+
+	case 505:	/* HTTP Version Not Supported */
+		werrstr("HTTP Version Not Supported");
 		goto Error;
 	
 	default:
