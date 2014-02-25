@@ -470,6 +470,18 @@ httpopen(Client *c, Url *url)
 		werrstr("Expectation Failed  (417)");
 		goto Error;
 
+	case 428:	/* Precondition Required */
+		werrstr("Precondition Required (428)");
+		goto Error;
+
+	case 429:	/* Too Many Requests */
+		werrstr("Too Many Requests (429)");
+		goto Error;
+
+	case 431:	/* Request Header Fields Too Large */
+		werrstr("Request Header Fields Too Large (431)");
+		goto Error;
+
 	case 500:	/* Internal server error */
 		werrstr("Server choked (500)");
 		goto Error;
@@ -492,6 +504,10 @@ httpopen(Client *c, Url *url)
 
 	case 505:	/* HTTP Version Not Supported */
 		werrstr("HTTP Version Not Supported");
+		goto Error;
+
+	case 511:	/* Network Authentication Required */
+		werrstr("Network Authentication Required (511)");
 		goto Error;
 	
 	default:
