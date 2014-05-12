@@ -642,10 +642,6 @@ httprcode(int fd)
 	if(debug)
 		fprint(2, "%d <- %s\n", fd, buf);
 	p = strchr(buf, ' ');
-	if(strncmp(buf, "HTTP/", 5) != 0 || p == nil){
-		werrstr("bad response from server");
-		return -1;
-	}
 	buf[n] = 0;
 	return atoi(p+1);
 }
